@@ -1,0 +1,38 @@
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "username":"rohit",
+    "password":"rohit"
+}
+
+###
+POST http://localhost:4000/add-review
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0IiwiaWF0IjoxNjkxNjgwNDI5LCJleHAiOjE2OTE2ODA0NDR9.HLxHRWfDeyKub_b7ASVVH7NV_EBRkh7EzgrTmd7jstg
+Content-Type: application/json
+
+{
+    "title":"Avatar:Way of Waterssssss",
+    "Content":"Awesome Film"
+}
+###
+GET http://localhost:4000/authenticate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0IiwiaWF0IjoxNjkxNjc4NjM5LCJleHAiOjE2OTE2Nzg2NTR9.iVQTnhmG0PRLogzOHFEDYps4TP5v_E_fZq6XZN22wJg
+###
+GET http://localhost:4000/refresh-token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0IiwiaWF0IjoxNjkxMTM5MDQ5fQ.DrGZtspHgg_7yc1lhO-H-H8VHGMAx0VytC98Yblmz2U
+
+###
+### 
+GET  http://localhost:4000/get-users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvaGl0IiwiaWF0IjoxNjkxNjc4NzE2LCJleHAiOjE2OTE2Nzg3MzF9.fHjlDdQthcm_NaJdwUBXmEOYonWKC1lrrKDMl6vUWHs
+###
+POST http://localhost:4000/create-user
+Content-Type: application/json
+
+{
+    "name":"rohit",
+    "email":"rohit@mail.com",
+    "username":"rohit",
+    "password":"rohit"
+}
