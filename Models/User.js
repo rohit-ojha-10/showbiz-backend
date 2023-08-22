@@ -17,6 +17,7 @@ const userSchema = mongoose.Schema({
   reviews: [
     {
       title: String,
+      rating: Number,
       content: String,
     },
   ],

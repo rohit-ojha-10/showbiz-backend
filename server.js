@@ -13,7 +13,6 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("database connected"));
 app.use(express.json());
 const user = require("./Models/User");
-const password = "rohit";
 let refreshTokens = [];
 app.listen(4000, () => {
   console.log("running");
@@ -106,22 +105,29 @@ app.post("/create-user", async (req, res) => {
 app.post("/add-review", authenticateToken, async (req, res) => {
   try {
     const data = req.body;
-    const { title, content } = data;
+    const { title, content, rating } = data;
     const username = req.authenticated.payload;
     const current_user = await user.findOne({ username: username });
     console.log(current_user);
-    current_user.reviews.push({ title: title, content: content });
+    current_user.reviews.push({
+      title: title,
+      rating: rating,
+      content: content,
+    });
     await current_user.save();
     const check = await user.findOne({ username: username });
     console.log(check);
     return res.json({ success: true, user: check });
   } catch (error) {
-    return res.json({ message: error });
+    console.log(error);
+    return res.json({ error });
   }
 });
 app.post("/login", async (req, res) => {
+  let curr_user = await user.findOne({ username: req.body.username });
   try {
-    if (password == req.body.password) {
+    if (curr_user.password === req.body.password) {
+      console.log("here");
       const token = jwt.sign(
         { username: req.body.username },
         process.env.ACCESS_WEB_TOKEN,
@@ -138,6 +144,7 @@ app.post("/login", async (req, res) => {
         refreshToken: refreshToken,
       });
     } else {
+      console.log(password.data, req.body.password);
       return res.json({ success: false });
     }
   } catch (error) {
