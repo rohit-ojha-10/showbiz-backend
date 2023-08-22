@@ -14,7 +14,7 @@ db.once("open", () => console.log("database connected"));
 app.use(express.json());
 const user = require("./Models/User");
 let refreshTokens = [];
-app.listen(4000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("running");
 });
 app.get("/get-users", authenticateToken, async (req, res) => {
