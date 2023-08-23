@@ -13,9 +13,31 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("database connected"));
 app.use(express.json());
 const user = require("./Models/User");
+
 let refreshTokens = [];
 app.listen(process.env.PORT || 4000, () => {
   console.log("running");
+});
+app.get("/my-reviews", authenticateToken, async (req, res) => {
+  try {
+    const id = req.query.id;
+    const curr_user = await user.findOne({ _id: id });
+    return res.send({ success: true, reviews: curr_user.reviews });
+  } catch (error) {
+    res.send({ success: false });
+  }
+});
+app.get("/all-reviews", authenticateToken, async (req, res) => {
+  try {
+    const allData = await user.find({}, { reviews: 1, name: 1 });
+    const allReviews = allData.flatMap((obj) => {
+      return { reviews: obj.reviews, name: obj.name };
+    });
+    return res.send({ success: true, reviews: allReviews });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "reviews not fetched" });
+  }
 });
 app.get("/get-users", authenticateToken, async (req, res) => {
   try {
@@ -138,10 +160,12 @@ app.post("/login", async (req, res) => {
         process.env.REFRESH_WEB_TOKEN
       );
       refreshTokens.push(refreshToken);
+      let user_id = curr_user.id;
       return res.json({
         success: true,
         authToken: token,
         refreshToken: refreshToken,
+        user_id: user_id,
       });
     } else {
       console.log(password.data, req.body.password);
